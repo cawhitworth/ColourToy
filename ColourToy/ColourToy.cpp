@@ -10,10 +10,11 @@
 #include "Bitmap.h"
 #include "Colour.h"
 #include "Version1.h"
+#include "VersionTwo.h"
 
 
-const int WIDTH = 1024;
-const int HEIGHT = 1024;
+const int WIDTH = 512;
+const int HEIGHT = 512;
 const int CHANNELS = 4;
 
 const char* OUTPUT = "image";
@@ -25,8 +26,9 @@ int _tmain(int argc, _TCHAR* argv[])
     Sanity();
 
     VersionOne v1(WIDTH, HEIGHT);
+    VersionTwo v2(WIDTH, HEIGHT);
 
-    auto image = v1.Render();
+    auto image = v2.Render();
 
     std::string filename = OUTPUT;
     filename += ".png";

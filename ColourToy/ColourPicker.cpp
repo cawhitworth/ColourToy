@@ -16,6 +16,11 @@ ColourPicker::~ColourPicker()
     delete [] m_usedColour;
 }
 
+void ColourPicker::Pick(unsigned colour)
+{
+    m_usedColour[colour & 0x00ffffff] = true;
+}
+
 unsigned ColourPicker::PickNearestTo(unsigned colour)
 {
     auto idx = colour & 0x00ffffff;
