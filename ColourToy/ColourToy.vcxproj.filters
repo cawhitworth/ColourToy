@@ -36,6 +36,9 @@
     <ClInclude Include="ColourPicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Version1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -51,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ColourPicker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Version1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,7 +9,7 @@
 #include "lodepng.h"
 #include "Bitmap.h"
 #include "Colour.h"
-#include "ColourPicker.h"
+#include "Version1.h"
 
 
 const int WIDTH = 1024;
@@ -19,83 +19,22 @@ const int CHANNELS = 4;
 const char* OUTPUT = "image";
 
 void Sanity();
-bool ProcessPixel(Bitmap&, ColourPicker&, unsigned, unsigned);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
     Sanity();
 
-    ColourPicker p;
-    Bitmap image(WIDTH, HEIGHT);
+    VersionOne v1(WIDTH, HEIGHT);
 
-    image.Plot(256,256, Colour(0x01, 0x01, 0x01));
-    int pass = 0;
-    while (true)
-    {
-        pass++;
-        std::cout << pass << std::endl;
-
-        bool modified = false;
-        for (int x = 0; x < WIDTH; x++)
-        {
-            for (int y = 0; y < HEIGHT; y++)
-            {
-                modified |= ProcessPixel(image, p, x, y);
-            }
-        }
-
-        if (!modified) break;
-
-        for (int x = 0; x < WIDTH; x++)
-        {
-            for (int y = 0; y < HEIGHT; y++)
-            {
-                auto c = image.Point(x, y);
-                SetA(c, 0xff);
-                image.Plot(x, y, c);
-            }
-        }
-    }
+    auto image = v1.Render();
 
     std::string filename = OUTPUT;
     filename += ".png";
-    auto err = lodepng::encode(filename, image.RawData(), WIDTH, HEIGHT);
+    auto err = lodepng::encode(filename, image->RawData(), WIDTH, HEIGHT);
 
     return 0;
 }
 
-
-bool ProcessPixel(Bitmap& image, ColourPicker& p, unsigned x, unsigned y)
-{
-    auto c = image.Point(x, y);
-    
-    if (c == Colour(0, 0, 0))
-        return false;
-
-    if (A(c) == 0)
-        return false;
-
-    bool modified = false;
-
-    for (int dx = x-1; dx < x+2; dx++)
-    {
-        for (int dy = y-1; dy < y+2; dy++)
-        {
-            if (dx == x && dy == y) continue;
-            if (dx < 0 || dx > WIDTH - 1 || dy < 0 || dy > HEIGHT - 1) continue;
-            if (image.Point(dx, dy) != 0xff000000) continue;
-
-            auto colour = p.PickNearestTo(c);
-
-            SetA(colour, 0);
-
-            image.Plot(dx, dy, colour);
-            modified = true;
-        }
-    }
-
-    return modified;
-}
 
 void Sanity()
 {
