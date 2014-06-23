@@ -12,8 +12,8 @@
 #include "ColourPicker.h"
 
 
-const int WIDTH = 512;
-const int HEIGHT = 512;
+const int WIDTH = 1024;
+const int HEIGHT = 1024;
 const int CHANNELS = 4;
 
 const char* OUTPUT = "image";
@@ -29,9 +29,10 @@ int _tmain(int argc, _TCHAR* argv[])
     Bitmap image(WIDTH, HEIGHT);
 
     image.Plot(256,256, Colour(0x01, 0x01, 0x01));
-
-    for (int pass = 0; pass < 400; pass++)
+    int pass = 0;
+    while (true)
     {
+        pass++;
         std::cout << pass << std::endl;
 
         bool modified = false;
@@ -54,12 +55,6 @@ int _tmain(int argc, _TCHAR* argv[])
                 image.Plot(x, y, c);
             }
         }
-
-        std::string filename = OUTPUT;
-        filename += std::to_string(pass);
-        filename += ".png";
-
-        auto err = lodepng::encode(filename.c_str(), image.RawData(), WIDTH, HEIGHT);
     }
 
     std::string filename = OUTPUT;
