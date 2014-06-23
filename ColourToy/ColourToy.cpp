@@ -13,8 +13,8 @@
 #include "VersionTwo.h"
 
 
-const int WIDTH = 512;
-const int HEIGHT = 512;
+const int WIDTH = 4096;
+const int HEIGHT = 4096;
 const int CHANNELS = 4;
 
 const char* OUTPUT = "image";
@@ -41,6 +41,7 @@ int _tmain(int argc, _TCHAR* argv[])
 void Sanity()
 {
     assert(Colour(0xff, 0, 0) == 0xff0000ff);
+    assert(Colour(0, 0xff, 0) == 0xff00ff00);
     
     auto c1 = Colour(0xff, 0x00, 0x00);
     auto c2 = Colour(0xfe, 0x00, 0x00);

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ColourPicker.h"
 #include "Colour.h"
+#include <vector>
 
 ColourPicker::ColourPicker()
 {
@@ -28,6 +29,8 @@ unsigned ColourPicker::PickNearestTo(unsigned colour)
     int distance = 1;
     unsigned newIdx;
 
+    std::vector<unsigned> candidates;
+
     while (true)
     {
         for (int dr = R(idx) - distance; dr < R(idx) + distance; dr++)
@@ -46,12 +49,22 @@ unsigned ColourPicker::PickNearestTo(unsigned colour)
 
                     if (!m_usedColour[newIdx])
                     {
-                        m_usedColour[newIdx] = true;
-                        return newIdx | 0xff000000;
+                        candidates.push_back(newIdx);
                     }
                 }
             }
         }
+
+        auto s = candidates.size();
+        if (s > 0)
+        {
+            auto c = s / 2;
+
+            newIdx = candidates[c];
+            m_usedColour[newIdx] = true;
+            return newIdx | 0xff000000;
+        }
+
         distance++;
     }
 }

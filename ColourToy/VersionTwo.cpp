@@ -16,7 +16,7 @@ VersionTwo::~VersionTwo()
 
 std::shared_ptr<Bitmap> VersionTwo::Render()
 {
-    AddPixel(10, 10, Colour(0xff, 0xff, 0xff));
+    AddPixel(m_Width / 2, m_Height / 2, Colour(0x01, 0x00, 0x00));
 
     int iter = 0, plotted= 0;
 
@@ -29,7 +29,7 @@ std::shared_ptr<Bitmap> VersionTwo::Render()
         if (m_Image->Point(x, y) != Colour(0, 0, 0))
             continue;
 
-        int r = 0, g = 0, b = 0, count = 0;
+        unsigned r = 0, g = 0, b = 0, count = 0;
         for (int dx = x - 1; dx < x + 2; dx++)
         {
             if (dx < 0 || dx > m_Width - 1) continue;
