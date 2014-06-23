@@ -1,5 +1,5 @@
 
-env = Environment(CXXFLAGS=["-std=c++11"])
+env = Environment(CXXFLAGS=["-std=c++11","-O2"])
 
 env.Program("colourtoy", [ "Bitmap.cpp", 
                        "ColourPicker.cpp",

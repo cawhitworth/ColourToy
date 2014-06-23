@@ -16,7 +16,7 @@ VersionTwo::~VersionTwo()
 
 std::shared_ptr<Bitmap> VersionTwo::Render()
 {
-    AddPixel(m_Width / 2, m_Height / 2, Colour(0x01, 0x00, 0x00));
+    AddPixel(m_Width / 2, m_Height / 2, Colour(0x01, 0x01, 0x01));
 
     int iter = 0, plotted= 0;
 
