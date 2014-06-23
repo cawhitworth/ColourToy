@@ -3,7 +3,7 @@
 Messing around with pixels. Experiments on theme of images with unique pixel
 colours - no two pixels the same, programmatically generated prettiness.
 
-Inspired largely by (@kapuramax's experiments)[https://medium.com/@kapuramax/procedural-image-generation-in-go-7a57ff2e2e90]
+Inspired largely by [@kapuramax's experiments](https://medium.com/@kapuramax/procedural-image-generation-in-go-7a57ff2e2e90)
 
 (the VersionTwo algorithm is essentially the same as his, but uses cubes
 rather than spheres when searching the colourspace, and always picks the
@@ -23,5 +23,5 @@ not functional changes but are necessary for building on Windows: a stdafx.h
 include, and changing fopen() to fopen_s(). There's also a back-mapping of
 fopen_s() to fopen() for OS X/Linux.
 
-LodePNG can be found (here)[http://lodev.org/lodepng/] - it's great and
+LodePNG can be found [here](http://lodev.org/lodepng/) - it's great and
 ridiculously easy to use.
