@@ -1,6 +1,17 @@
 #include "stdafx.h"
 
 /*
+
+This is a modified version of LodePNG. The modifications are listed below:
+
+ * There is a precompiled header include at the top of the file
+ * Two calls to fopen() have been changed to fopen_s()
+
+Modified by Chris Whitworth
+
+ */
+
+/*
 LodePNG version 20140609
 
 Copyright (c) 2005-2014 Lode Vandevenne
