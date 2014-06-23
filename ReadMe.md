@@ -10,6 +10,8 @@ rather than spheres when searching the colourspace, and always picks the
 middle value of the candidate set of colours. Also, at present, it uses a
 single queue of pixels - C++ lacks the nice concurrency primitives of Go)
 
+Example output [here](https://dl.dropboxusercontent.com/u/18971919/all_colours.png)
+
 ## Building
 
 There's a .sln / .vcxproj for building on Visual Studio for Windows, and
