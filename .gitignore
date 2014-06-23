@@ -1,4 +1,10 @@
 *.opensdf
 *.sdf
+*.o
+*.swp
+.DS_Store
 ColourToy/image.png
+ColourToy/colourtoy
 ipch/
+*.dblite
+

@@ -21,7 +21,11 @@ const char* OUTPUT = "image";
 
 void Sanity();
 
+#ifdef WIN32
 int _tmain(int argc, _TCHAR* argv[])
+#else
+int main(int argc, char* argv[])
+#endif
 {
     Sanity();
 

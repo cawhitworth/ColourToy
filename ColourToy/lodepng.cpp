@@ -11,6 +11,7 @@ Modified by Chris Whitworth
 
  */
 
+
 /*
 LodePNG version 20140609
 
@@ -51,6 +52,14 @@ Rename this file to lodepng.cpp to use it for C++, or to lodepng.c to use it for
 #endif /*LODEPNG_COMPILE_CPP*/
 
 #define VERSION_STRING "20140609"
+
+#ifndef WIN32
+errno_t fopen_s(FILE** file, const char* filename, const char* mode)
+{
+    *file = fopen(filename, mode);
+    return 0;
+}
+#endif
 
 /*
 This source file is built up in the following large parts. The code sections
