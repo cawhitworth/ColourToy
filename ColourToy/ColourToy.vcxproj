@@ -81,12 +81,14 @@
   <ItemGroup>
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Colour.h" />
+    <ClInclude Include="ColourPicker.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bitmap.cpp" />
+    <ClCompile Include="ColourPicker.cpp" />
     <ClCompile Include="ColourToy.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="stdafx.cpp">

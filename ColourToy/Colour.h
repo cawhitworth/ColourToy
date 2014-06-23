@@ -5,6 +5,8 @@
 #define B(col) ((unsigned char)( ( (col) >> 16 ) & 0xff ))
 #define A(col) ((unsigned char)( ( (col) >> 24 ) & 0xff ))
 
+#define SetA(col, val) { col = (col & 0x00ffffff) | ( (val) << 24) ; }
+
 #define ColourA(r,g,b,a) \
     ((unsigned)( \
         ( (r) & 0xff ) |\
