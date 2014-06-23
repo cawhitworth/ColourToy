@@ -5,23 +5,25 @@ colours - no two pixels the same, programmatically generated prettiness.
 
 Inspired largely by [@kapuramax's experiments](https://medium.com/@kapuramax/procedural-image-generation-in-go-7a57ff2e2e90)
 
-(the VersionTwo algorithm is essentially the same as his, but uses cubes
-rather than spheres when searching the colourspace, and always picks the
-middle value of the candidate set of colours. Also, at present, it uses a
-single queue of pixels - C++ lacks the nice concurrency primitives of Go)
+(the VersionTwo algorithm is essentially the same as his, but uses cubes rather
+than spheres when searching the colourspace, and always picks the middle value
+of the candidate set of colours. Also, at present, it uses a single queue of
+pixels - C++ lacks the nice concurrency primitives of Go)
 
-Example output [here](https://dl.dropboxusercontent.com/u/18971919/all_colours.png)
+Example output [here](https://dl.dropboxusercontent.com/u/18971919/all_colours.png).
+It runs in about 30seconds on my late 2013 i5 MacBook Pro with the current
+setup.
 
 ## Building
 
-There's a .sln / .vcxproj for building on Visual Studio for Windows, and
-a SConstruct for compiling on OS X/Linux. The code should be broadly
-portable, and with a couple of ifdefs scattered around for the Windows build.
+There's a .sln / .vcxproj for building on Visual Studio for Windows, and a
+SConstruct for compiling on OS X/Linux. The code should be broadly portable,
+and with a couple of ifdefs scattered around for the Windows build.
 
 ## LodePNG licensing note
 
-This project includes a modified version of LodePNG. The modifications are
-not functional changes but are necessary for building on Windows: a stdafx.h
+This project includes a modified version of LodePNG. The modifications are not
+functional changes but are necessary for building on Windows: a stdafx.h
 include, and changing fopen() to fopen_s(). There's also a back-mapping of
 fopen_s() to fopen() for OS X/Linux.
 
