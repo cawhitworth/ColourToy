@@ -16,9 +16,12 @@ There's a .sln / .vcxproj for building on Visual Studio for Windows, and
 a SConstruct for compiling on OS X/Linux. The code should be broadly
 portable, and with a couple of ifdefs scattered around for the Windows build.
 
-## Please note:
+## LodePNG licensing note
 
-This application includes a modified version of LodePNG. The modifications are
+This project includes a modified version of LodePNG. The modifications are
 not functional changes but are necessary for building on Windows: a stdafx.h
 include, and changing fopen() to fopen_s(). There's also a back-mapping of
 fopen_s() to fopen() for OS X/Linux.
+
+LodePNG can be found (here)[http://lodev.org/lodepng/] - it's great and
+ridiculously easy to use.
