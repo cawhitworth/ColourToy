@@ -3,12 +3,15 @@
 #include "Colour.h"
 #include <vector>
 
+#define THRESHOLD 200000
+
 ColourPicker::ColourPicker()
 {
     m_usedColour = new bool[256 * 256 * 256];
     for (int i = 0; i < 256 * 256 * 256; i++)
     {
         m_usedColour[i] = false;
+        m_freeCount++;
     }
 }
 
@@ -20,10 +23,34 @@ ColourPicker::~ColourPicker()
 void ColourPicker::Pick(unsigned colour)
 {
     m_usedColour[colour & 0x00ffffff] = true;
+    m_freeCount--;
+}
+
+unsigned ColourPicker::PickNearestToAlt(unsigned colour)
+{
+    if (m_AltCandidates.begin() == m_AltCandidates.end())
+    {
+        for (int idx = 0; idx < 256 * 256 * 256; idx++)
+        {
+            if (!m_usedColour[idx])
+                m_AltCandidates.push_back(idx);
+        }
+    }
+
+    auto col = m_AltCandidates.front();
+    m_AltCandidates.pop_front();
+
+    m_usedColour[col] = true;
+    m_freeCount--;
+    return col | 0xff000000;
 }
 
 unsigned ColourPicker::PickNearestTo(unsigned colour)
 {
+    if (m_freeCount < THRESHOLD)
+    {
+        return PickNearestToAlt(colour);
+    }
     auto idx = colour & 0x00ffffff;
 
     int distance = 1;
@@ -62,6 +89,7 @@ unsigned ColourPicker::PickNearestTo(unsigned colour)
 
             newIdx = candidates[c];
             m_usedColour[newIdx] = true;
+            m_freeCount--;
             return newIdx | 0xff000000;
         }
 

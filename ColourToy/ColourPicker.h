@@ -1,4 +1,7 @@
 #pragma once
+
+#include <list>
+
 class ColourPicker
 {
 public:
@@ -9,6 +12,10 @@ public:
     void Pick(unsigned colour);
 
 private:
+    unsigned PickNearestToAlt(unsigned colour);
+    std::list<unsigned> m_AltCandidates;
+
     bool* m_usedColour;
+    int m_freeCount;
 };
 
