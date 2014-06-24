@@ -16,7 +16,7 @@ public:
     void push(const T& item)
     {
         std::unique_lock<std::mutex> mlock(m_Mutex);
-        while (m_Queue.size() > m_MaxSize)
+        while (m_Queue.size() >= m_MaxSize)
         {
             m_PopCond.wait(mlock);
         }
@@ -28,7 +28,7 @@ public:
     void push(T&& item)
     {
         std::unique_lock<std::mutex> mlock(m_Mutex);
-        while (m_Queue.size() > m_MaxSize)
+        while (m_Queue.size() >= m_MaxSize)
         {
             m_PopCond.wait(mlock);
         }
@@ -55,6 +55,9 @@ public:
         std::unique_lock < std::mutex > mlock(m_Mutex);
         return m_Queue.empty();
     }
+
+    ConcurrentQueue(const ConcurrentQueue&) = delete;
+    ConcurrentQueue& operator=(const ConcurrentQueue&) = delete;
 
 private:
     unsigned m_MaxSize;
