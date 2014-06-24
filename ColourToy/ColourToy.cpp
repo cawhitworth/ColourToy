@@ -11,10 +11,11 @@
 #include "Colour.h"
 #include "Version1.h"
 #include "VersionTwo.h"
+#include "VersionThree.h"
 
 
-const int WIDTH = 4096;
-const int HEIGHT = 4096;
+const int WIDTH = 1024;
+const int HEIGHT = 1024;
 const int CHANNELS = 4;
 
 const char* OUTPUT = "image";
@@ -31,8 +32,9 @@ int main(int argc, char* argv[])
 
     VersionOne v1(WIDTH, HEIGHT);
     VersionTwo v2(WIDTH, HEIGHT);
+    VersionThree v3(WIDTH, HEIGHT);
 
-    auto image = v2.Render();
+    auto image = v3.Render();
 
     std::string filename = OUTPUT;
     filename += ".png";
