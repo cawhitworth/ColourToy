@@ -5,7 +5,7 @@
 #include <numeric>
 #include <future>
 
-VersionThree::VersionThree(unsigned w, unsigned h) : m_Queue(32)
+VersionThree::VersionThree(unsigned w, unsigned h) : m_Queue(512)
 {
     m_Width = w; m_Height = h;
     m_Image.reset(new Bitmap(w, h));
@@ -17,7 +17,7 @@ VersionThree::~VersionThree()
 
 std::shared_ptr<Bitmap> VersionThree::Render()
 {
-    AddPixel(m_Width / 2, m_Height / 2, Colour(0xff, 0xff, 0xff));
+    AddPixel(m_Width / 2, m_Height / 2, Colour(0x01, 0x00, 0x00));
 
     Worker();
 
@@ -26,7 +26,7 @@ std::shared_ptr<Bitmap> VersionThree::Render()
 
 void VersionThree::Worker()
 {
-    int iter = 0, plotted = 0, weird = 0, overdraw = 0, race = 0;
+    int iter = 0, plotted = 1, weird = 0, overdraw = 0, race = 0;
     int lastPc = 0;
     while (true)
     {
@@ -108,7 +108,7 @@ void VersionThree::AddPixel(unsigned x, unsigned y, unsigned c)
 
                 if (m_Image->Point(dx, dy) == Colour(0, 0, 0))
                 {
-                    m_Image->Plot(dx, dy, ColourA(0, 0, 0, 0));
+                    m_Image->Plot(dx, dy, ColourA(0, 0, 0, 0)); // Use the Alpha channel to record a queued pixel
                     m_Queue.push( std::pair<unsigned, unsigned>(dx, dy) );
                 }
             }

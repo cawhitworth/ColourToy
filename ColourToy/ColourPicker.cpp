@@ -2,6 +2,7 @@
 #include "ColourPicker.h"
 #include "Colour.h"
 #include <vector>
+#include <iostream>
 
 #define THRESHOLD 200000
 
@@ -30,6 +31,7 @@ unsigned ColourPicker::PickNearestToAlt(unsigned colour)
 {
     if (m_AltCandidates.begin() == m_AltCandidates.end())
     {
+        std::cout << "Switched to alt picker" << std::endl;
         for (int idx = 0; idx < 256 * 256 * 256; idx++)
         {
             if (!m_usedColour[idx])
