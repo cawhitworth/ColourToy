@@ -20,8 +20,16 @@ std::shared_ptr<Bitmap> VersionTwo::Render()
 
     int iter = 0, plotted= 0;
 
+    int lastPc = 0;
     while (!m_Queue.empty())
     {
+        auto pc = (int) ((plotted * 100.f) / (m_Width * m_Height));
+        if (pc > lastPc)
+        {
+            std::cout << pc << std::endl;
+            lastPc = pc;
+        }
+
         auto coord = m_Queue.front();
         m_Queue.pop_front();
         auto x = coord.first, y = coord.second;
@@ -58,7 +66,6 @@ std::shared_ptr<Bitmap> VersionTwo::Render()
 
 void VersionTwo::AddPixel(unsigned x, unsigned y, unsigned c)
 {
-    m_Picker.Pick(c);
     m_Image->Plot(x, y, c);
 
     for (auto dx : { x - 1, x, x + 1 })
