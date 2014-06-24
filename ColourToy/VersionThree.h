@@ -24,9 +24,8 @@ private:
     std::shared_ptr<Bitmap> m_Image;
     ColourPicker m_Picker;
 
-    std::mutex m_PickerMutex;
-
-    bool m_Abort;
     ConcurrentQueue<std::pair<unsigned, unsigned> > m_Queue;
+
+    std::mutex m_Mutex;
 };
 
