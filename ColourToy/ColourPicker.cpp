@@ -3,8 +3,9 @@
 #include "Colour.h"
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
-#define THRESHOLD 200000
+#define THRESHOLD 40000
 
 ColourPicker::ColourPicker()
 {
@@ -39,8 +40,21 @@ unsigned ColourPicker::PickNearestToAlt(unsigned colour)
         }
     }
 
-    auto col = m_AltCandidates.front();
-    m_AltCandidates.pop_front();
+    unsigned minDist = 0x7fffffff;
+    auto best = m_AltCandidates.begin();
+    for (auto itr = m_AltCandidates.begin(); itr != m_AltCandidates.end(); itr++)
+    {
+        auto c = *itr;
+        auto d = Distance(colour, c);
+        if (d < minDist)
+        {
+            minDist = d;
+            best = itr;
+        }
+    }
+
+    auto col = *best;
+    m_AltCandidates.erase(best);
 
     m_usedColour[col] = true;
     m_freeCount--;
@@ -59,6 +73,8 @@ unsigned ColourPicker::PickNearestTo(unsigned colour)
     unsigned newIdx;
 
     std::vector<unsigned> candidates;
+    
+    int scannedThrough = 0;
 
     while (true)
     {
@@ -85,6 +101,8 @@ unsigned ColourPicker::PickNearestTo(unsigned colour)
         }
 
         auto s = candidates.size();
+        scannedThrough += s;
+
         if (s > 0)
         {
             auto c = s / 2;
@@ -92,6 +110,8 @@ unsigned ColourPicker::PickNearestTo(unsigned colour)
             newIdx = candidates[c];
             m_usedColour[newIdx] = true;
             m_freeCount--;
+            if (scannedThrough > m_maxScannedThrough)
+                m_maxScannedThrough = scannedThrough;
             return newIdx | 0xff000000;
         }
 

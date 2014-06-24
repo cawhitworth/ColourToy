@@ -5,7 +5,7 @@
 #include <numeric>
 #include <future>
 
-VersionThree::VersionThree(unsigned w, unsigned h) : m_Queue(512)
+VersionThree::VersionThree(unsigned w, unsigned h) : m_Queue(8), m_Initial(100)
 {
     m_Width = w; m_Height = h;
     m_Image.reset(new Bitmap(w, h));
@@ -17,16 +17,29 @@ VersionThree::~VersionThree()
 
 std::shared_ptr<Bitmap> VersionThree::Render()
 {
-    AddPixel(m_Width / 2, m_Height / 2, Colour(0x01, 0x00, 0x00));
+    unsigned r = 0, g = 0, b = 0;
+
+    for (int i = 0; i < m_Initial; i++)
+    {
+        AddPixel(rand() % m_Width, rand() % m_Height, Colour(r,g,b) );
+
+        m_Picker.Pick(Colour(r, g, b));
+
+        if (i % 3 == 0) r++;
+        if (i % 3 == 1) g++;
+        if (i % 3 == 2) b++;
+    }
 
     Worker();
+
+    std::cout << "Max search for colour: " << m_Picker.MaxScannedThrough() << std::endl;
 
     return m_Image;
 }
 
 void VersionThree::Worker()
 {
-    int iter = 0, plotted = 1, weird = 0, overdraw = 0, race = 0;
+    int iter = 0, plotted = m_Initial * 2, weird = 0, overdraw = 0, race = 0;
     int lastPc = 0;
     while (true)
     {

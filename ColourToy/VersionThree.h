@@ -20,7 +20,7 @@ private:
     void AddPixel(unsigned x, unsigned y, unsigned c);
     void Enqueue(unsigned x, unsigned y);
 
-    unsigned m_Width, m_Height;
+    unsigned m_Width, m_Height, m_Initial;
     std::shared_ptr<Bitmap> m_Image;
     ColourPicker m_Picker;
 

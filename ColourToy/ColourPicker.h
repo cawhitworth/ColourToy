@@ -11,11 +11,14 @@ public:
     unsigned PickNearestTo(unsigned colour);
     void Pick(unsigned colour);
 
+    int MaxScannedThrough() { return m_maxScannedThrough; }
+
 private:
     unsigned PickNearestToAlt(unsigned colour);
     std::list<unsigned> m_AltCandidates;
 
     bool* m_usedColour;
     int m_freeCount;
+    int m_maxScannedThrough;
 };
 
