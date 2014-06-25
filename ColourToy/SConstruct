@@ -1,5 +1,5 @@
 
-env = Environment(CXXFLAGS=["-std=c++11","-O2", "-stdlib=libstdc++"])
+env = Environment(CXXFLAGS=["-std=c++11","-g", "-stdlib=libstdc++"])
 
 env["CXX"] = "clang++"
 

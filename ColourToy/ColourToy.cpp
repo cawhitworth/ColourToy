@@ -14,8 +14,8 @@
 #include "VersionThree.h"
 
 
-const int WIDTH = 16;
-const int HEIGHT = 16;
+const int WIDTH = 1024;
+const int HEIGHT = 1024;
 const int CHANNELS = 4;
 
 const char* OUTPUT = "image";

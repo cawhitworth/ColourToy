@@ -16,11 +16,15 @@ public:
 
     void push(const T& item)
     {
+#ifdef LOG
         std::cout << "Push on " << std::this_thread::get_id() << std::endl;
+#endif
         std::unique_lock<std::mutex> mlock(m_Mutex);
         while (m_Queue.size() >= m_MaxSize)
         {
+#ifdef LOG
             std::cout << "Waiting on pop" << std::endl;
+#endif
             m_PopCond.wait(mlock);
         }
         m_Queue.push(item);
@@ -30,11 +34,15 @@ public:
 
     void push(T&& item)
     {
+#ifdef LOG
         std::cout << "Push on " << std::this_thread::get_id() << std::endl;
+#endif
         std::unique_lock<std::mutex> mlock(m_Mutex);
         while (m_Queue.size() >= m_MaxSize)
         {
+#ifdef LOG
             std::cout << "Waiting on pop" << std::endl;
+#endif
             m_PopCond.wait(mlock);
         }
         m_Queue.push(std::move(item));
@@ -45,11 +53,15 @@ public:
 
     T pop()
     {
+#ifdef LOG
         std::cout << "Pop on " << std::this_thread::get_id() << std::endl;
+#endif
         std::unique_lock<std::mutex> mlock(m_Mutex);
         while (m_Queue.empty())
         {
+#ifdef LOG
             std::cout << "Waiting on push" << std::endl;
+#endif
             m_PushCond.wait(mlock);
         }
         auto item = m_Queue.front();

@@ -63,7 +63,7 @@ unsigned ColourPicker::PickNearestToAlt(unsigned colour)
 
 unsigned ColourPicker::PickNearestTo(unsigned colour)
 {
-    if (m_freeCount < THRESHOLD)
+    if (m_freeCount < THRESHOLD && false)
     {
         return PickNearestToAlt(colour);
     }
