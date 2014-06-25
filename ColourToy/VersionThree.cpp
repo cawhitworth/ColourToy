@@ -119,7 +119,7 @@ void VersionThree::AddPixel(unsigned x, unsigned y, unsigned c)
     std::cout << "Plot" << std::endl;
 #endif
 
-    auto enqueue = [=]() {
+    auto enqueue([=]() {
 #ifdef LOG
         std::cout << "Enqueue" << std::endl;
 #endif
@@ -137,10 +137,15 @@ void VersionThree::AddPixel(unsigned x, unsigned y, unsigned c)
                 }
             }
         }
-    };
+        return 0;
+    });
 
-    std::packaged_task<void()> task(enqueue);
-    std::thread(std::move(task)).detach();
-
-    //std::async(std::launch::async, enqueue);
+    std::packaged_task<int()> work(enqueue);
+#ifndef WIN32
+    // On Windows, this exhausts the threadpool in almost immediately
+    std::thread(std::move(work)).detach();
+#else
+    // On clang++ platforms, the future returned by this has a blocking destructor, so can deadlock
+    std::async(std::launch::async, enqueue);
+#endif
 }

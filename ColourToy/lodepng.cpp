@@ -372,7 +372,11 @@ unsigned lodepng_load_file(unsigned char** out, size_t* outsize, const char* fil
 {
   FILE* file;
   long size;
+#ifdef WIN32
+  errno_t err;
+#else
   error_t err;
+#endif
 
   /*provide some proper output values if error will happen*/
   *out = 0;
@@ -401,7 +405,11 @@ unsigned lodepng_load_file(unsigned char** out, size_t* outsize, const char* fil
 unsigned lodepng_save_file(const unsigned char* buffer, size_t buffersize, const char* filename)
 {
   FILE* file;
+#ifdef WIN32
+  errno_t err;
+#else
   error_t err;
+#endif
   err = fopen_s(&file, filename, "wb" );
   if(!file) return 79;
   fwrite((char*)buffer , 1 , buffersize, file);
