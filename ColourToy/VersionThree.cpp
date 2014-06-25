@@ -5,7 +5,7 @@
 #include <numeric>
 #include <future>
 
-VersionThree::VersionThree(unsigned w, unsigned h) : m_Queue(8), m_Initial(100)
+VersionThree::VersionThree(unsigned w, unsigned h) : m_Queue(512), m_Initial(10)
 {
     m_Width = w; m_Height = h;
     m_Image.reset(new Bitmap(w, h));
@@ -17,11 +17,17 @@ VersionThree::~VersionThree()
 
 std::shared_ptr<Bitmap> VersionThree::Render()
 {
-    unsigned r = 0, g = 0, b = 0;
+    unsigned r = 1, g = 0, b = 0;
 
     for (int i = 0; i < m_Initial; i++)
     {
-        AddPixel(rand() % m_Width, rand() % m_Height, Colour(r,g,b) );
+        auto x = rand() % m_Width;
+        auto y = rand() % m_Height;
+
+#ifdef LOG
+        std::cout << "Init " << x << "," << y << std::endl;
+#endif
+        AddPixel(x,y, Colour(r,g,b) );
 
         m_Picker.Pick(Colour(r, g, b));
 
@@ -65,8 +71,9 @@ void VersionThree::Worker()
 
         if (m_Image->Point(x, y) != 0)
             continue;
-
-
+#ifdef LOG
+        std::cout << "Point " << x << "," << y << std::endl;
+#endif
         unsigned r = 0, g = 0, b = 0, count = 0;
         for (auto dx : { x - 1, x, x + 1 })
         {
@@ -84,7 +91,6 @@ void VersionThree::Worker()
         }
         if (count > 0)
         {
-            std::unique_lock<std::mutex> mlock(m_Mutex);
             if (m_Image->Point(x, y) == 0)
             {
                 r /= count; g /= count; b /= count;
@@ -109,9 +115,14 @@ void VersionThree::Worker()
 void VersionThree::AddPixel(unsigned x, unsigned y, unsigned c)
 {
     m_Image->Plot(x, y, c);
+#ifdef LOG
+    std::cout << "Plot" << std::endl;
+#endif
 
     auto enqueue = [=]() {
-
+#ifdef LOG
+        std::cout << "Enqueue" << std::endl;
+#endif
         for (auto dx : { x - 1, x, x + 1 })
         {
             if (dx < 0 || dx > m_Width - 1) continue;
@@ -128,5 +139,8 @@ void VersionThree::AddPixel(unsigned x, unsigned y, unsigned c)
         }
     };
 
-    std::async(enqueue);
+    std::packaged_task<void()> task(enqueue);
+    std::thread(std::move(task)).detach();
+
+    //std::async(std::launch::async, enqueue);
 }
