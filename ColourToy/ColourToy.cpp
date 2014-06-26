@@ -16,7 +16,7 @@
 #include "VersionFour.h"
 
 
-const int WIDTH = 1024;
+const int WIDTH = 768;
 const int HEIGHT = 768;
 const int CHANNELS = 4;
 

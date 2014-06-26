@@ -55,6 +55,7 @@ std::shared_ptr<Bitmap> VersionFour::Render()
     }
 
     std::cout << "Finished droplets" << std::endl;
+    std::cout << "Maximum search " << m_Picker.MaxScannedThrough() << std::endl;
     std::list<Point> points;
     bool finished = false;
     int pass = 0;
@@ -99,6 +100,7 @@ std::shared_ptr<Bitmap> VersionFour::Render()
         }
 
         std::cout << "Pass " << pass++ << ": " << points.size() << " points " << std::endl;
+        std::cout << "Maximum search " << m_Picker.MaxScannedThrough() << std::endl;
         for (auto p : points)
         {
             m_Image->Plot(p.x, p.y, p.c);
