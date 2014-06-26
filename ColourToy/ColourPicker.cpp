@@ -90,7 +90,7 @@ unsigned ColourPicker::PickNearestTo(unsigned colour)
                 {
                     if (db < 0 || db > 255) continue;
 
-                    newIdx = Colour(dr, dg, db) & 0x00ffffff;
+                    newIdx = ColourA(dr, dg, db, 0);
 
                     if (!m_usedColour[newIdx])
                     {

@@ -45,6 +45,9 @@
     <ClInclude Include="VersionThree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VersionFour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VersionThree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VersionFour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

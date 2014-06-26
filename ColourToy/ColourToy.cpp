@@ -12,6 +12,7 @@
 #include "Version1.h"
 #include "VersionTwo.h"
 #include "VersionThree.h"
+#include "VersionFour.h"
 
 
 const int WIDTH = 1024;
@@ -33,8 +34,9 @@ int main(int argc, char* argv[])
     VersionOne v1(WIDTH, HEIGHT);
     VersionTwo v2(WIDTH, HEIGHT);
     VersionThree v3(WIDTH, HEIGHT);
+    VersionFour v4(WIDTH, HEIGHT);
 
-    auto image = v3.Render();
+    auto image = v4.Render();
 
     std::string filename = OUTPUT;
     filename += ".png";
