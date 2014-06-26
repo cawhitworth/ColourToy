@@ -5,6 +5,7 @@
 #include <iostream>
 #include <assert.h>
 #include <string>
+#include <google/profiler.h>
 
 #include "lodepng.h"
 #include "Bitmap.h"
@@ -16,7 +17,7 @@
 
 
 const int WIDTH = 1024;
-const int HEIGHT = 1024;
+const int HEIGHT = 768;
 const int CHANNELS = 4;
 
 const char* OUTPUT = "image";
@@ -36,7 +37,9 @@ int main(int argc, char* argv[])
     VersionThree v3(WIDTH, HEIGHT);
     VersionFour v4(WIDTH, HEIGHT);
 
+    ProfilerStart("colourtoy.prof");
     auto image = v4.Render();
+    ProfilerStop();
 
     std::string filename = OUTPUT;
     filename += ".png";

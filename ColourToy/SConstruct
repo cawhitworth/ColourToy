@@ -4,11 +4,13 @@ env = Environment(CXXFLAGS=["-std=c++11","-O2", "-stdlib=libstdc++"])
 env["CXX"] = "clang++"
 
 env.Append(LINKFLAGS= ['-lpthread'])
+env.Append(LINKFLAGS= ['-lprofiler'])
 
 env.Program("colourtoy", [ "Bitmap.cpp", 
                        "ColourPicker.cpp",
                        "ColourToy.cpp",
                        "lodepng.cpp",
                        "Version1.cpp",
+                       "VersionFour.cpp",
                        "VersionThree.cpp",
                        "VersionTwo.cpp" ] )
