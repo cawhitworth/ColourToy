@@ -34,7 +34,7 @@ std::shared_ptr<Bitmap> VersionFour::Render()
 
     for (int droplet = 0; droplet < 1000000; droplet++)
     {
-        auto x = rand() % m_Width;
+        auto x = (rand() % (m_Width-2))+1;
         auto y = m_Height;
         bool finished = false;
         unsigned c;
@@ -61,9 +61,9 @@ std::shared_ptr<Bitmap> VersionFour::Render()
     while (!finished)
     {
         finished = true;
-        for (int y = 0; y < m_Height; y++)
+        for (unsigned y = 0; y < m_Height; y++)
         {
-            for (int x = 0; x < m_Width; x++)
+            for (unsigned x = 0; x < m_Width; x++)
             {
                 if (x % 64 == 0)
                     std::cout << "\r" << x << "," << y << std::flush;

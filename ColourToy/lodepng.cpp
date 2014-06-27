@@ -54,7 +54,12 @@ Rename this file to lodepng.cpp to use it for C++, or to lodepng.c to use it for
 #define VERSION_STRING "20140609"
 
 #ifndef WIN32
-error_t fopen_s(FILE** file, const char* filename, const char* mode)
+#ifdef __APPLE__
+errno_t
+#else
+error_t
+#endif
+fopen_s(FILE** file, const char* filename, const char* mode)
 {
     *file = fopen(filename, mode);
     return 0;
@@ -372,7 +377,7 @@ unsigned lodepng_load_file(unsigned char** out, size_t* outsize, const char* fil
 {
   FILE* file;
   long size;
-#ifdef WIN32
+#if defined(WIN32) || defined(__APPLE__)
   errno_t err;
 #else
   error_t err;
@@ -405,7 +410,7 @@ unsigned lodepng_load_file(unsigned char** out, size_t* outsize, const char* fil
 unsigned lodepng_save_file(const unsigned char* buffer, size_t buffersize, const char* filename)
 {
   FILE* file;
-#ifdef WIN32
+#if defined(WIN32) || defined(__APPLE__)
   errno_t err;
 #else
   error_t err;

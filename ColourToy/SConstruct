@@ -1,5 +1,5 @@
 
-env = Environment(CXXFLAGS=["-std=c++11","-O2", "-stdlib=libstdc++"])
+env = Environment(CXXFLAGS=["-std=c++11","-O2"])
 
 env["CXX"] = "clang++"
 
@@ -10,5 +10,6 @@ env.Program("colourtoy", [ "Bitmap.cpp",
                        "ColourToy.cpp",
                        "lodepng.cpp",
                        "Version1.cpp",
+                       "VersionFour.cpp",
                        "VersionThree.cpp",
                        "VersionTwo.cpp" ] )
