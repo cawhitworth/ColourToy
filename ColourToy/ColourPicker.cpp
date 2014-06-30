@@ -40,6 +40,9 @@ unsigned ColourPicker::PickNearestToAlt(unsigned colour)
         }
     }
 
+    // Bah, fuck it
+    std::unique_lock<std::mutex> lock(m_pickMutex);
+
     unsigned minDist = 0x7fffffff;
     auto best = m_AltCandidates.begin();
     for (auto itr = m_AltCandidates.begin(); itr != m_AltCandidates.end(); itr++)
@@ -105,14 +108,23 @@ unsigned ColourPicker::PickNearestTo(unsigned colour)
 
         if (s > 0)
         {
-            auto c = s / 2;
+            std::unique_lock<std::mutex> lock(m_pickMutex);
 
-            newIdx = candidates[c];
-            m_usedColour[newIdx] = true;
-            m_freeCount--;
-            if (scannedThrough > m_maxScannedThrough)
-                m_maxScannedThrough = scannedThrough;
-            return newIdx | 0xff000000;
+            auto c = 0;
+            while (c < s && m_usedColour[candidates[c]] != false) c++;
+
+            if (c != s)
+            {
+                newIdx = candidates[c];
+                m_usedColour[newIdx] = true;
+
+                lock.unlock();
+
+                m_freeCount--;
+                if (scannedThrough > m_maxScannedThrough)
+                    m_maxScannedThrough = scannedThrough;
+                return newIdx | 0xff000000;
+            }
         }
 
         distance++;

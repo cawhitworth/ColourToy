@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <mutex>
 
 class ColourPicker
 {
@@ -16,6 +17,8 @@ public:
 private:
     unsigned PickNearestToAlt(unsigned colour);
     std::list<unsigned> m_AltCandidates;
+
+    std::mutex m_pickMutex;
 
     bool* m_usedColour;
     int m_freeCount;

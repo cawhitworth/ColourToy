@@ -2,7 +2,8 @@
 #include "VersionFour.h"
 #include "Colour.h"
 #include <iostream>
-
+#include <thread>
+#include <vector>
 
 VersionFour::VersionFour(unsigned width, unsigned height)
 {
@@ -55,56 +56,76 @@ std::shared_ptr<Bitmap> VersionFour::Render()
     }
 
     std::cout << "Finished droplets" << std::endl;
-    std::list<Point> points;
-    bool finished = false;
-    int pass = 0;
-    while (!finished)
-    {
-        finished = true;
-        for (unsigned y = 0; y < m_Height; y++)
+
+    auto worker = [=](int mod, int offset) {
+
+        std::cout << offset << " - started" << std::endl;
+
+        std::list<Point> points;
+        int pass = 0;
+        bool finished = false;
+        while (!finished)
         {
-            for (unsigned x = 0; x < m_Width; x++)
+            finished = true;
+            for (unsigned y = offset; y < m_Height; y += mod)
             {
-                if (x % 64 == 0)
-                    std::cout << "\r" << x << "," << y << std::flush;
-
-                if (m_Image->Point(x, y) != Colour(0, 0, 0))
-                    continue;
-
-                finished = false;
-
-                unsigned r = 0, g = 0, b = 0;
-                unsigned count = 0;
-
-                for (auto dx : { x - 1, x, x + 1 })
+                for (unsigned x = 0; x < m_Width; x++)
                 {
-                    if (dx < 0 || dx >= m_Width) continue;
-                    for (auto dy : { y - 1, y, y + 1 })
-                    {
-                        if (dy < 0 || dy >= m_Height) continue;
+                    if (x % 64 == 0 && offset == 0)
+                        std::cout << "\r" << x << "," << y << std::flush;
 
-                        auto c = m_Image->Point(dx, dy);
-                        if (c != Colour(0, 0, 0))
+                    if (m_Image->Point(x, y) != Colour(0, 0, 0))
+                        continue;
+
+                    finished = false;
+
+                    unsigned r = 0, g = 0, b = 0;
+                    unsigned count = 0;
+
+                    for (auto dx : { x - 1, x, x + 1 })
+                    {
+                        if (dx < 0 || dx >= m_Width) continue;
+                        for (auto dy : { y - 1, y, y + 1 })
                         {
-                            r += R(c); g += G(c); b += B(c); count++;
+                            if (dy < 0 || dy >= m_Height) continue;
+
+                            auto c = m_Image->Point(dx, dy);
+                            if (c != Colour(0, 0, 0))
+                            {
+                                r += R(c); g += G(c); b += B(c); count++;
+                            }
                         }
                     }
+
+                    if (count == 0) continue;
+                    r /= count; g /= count; b /= count;
+                    auto c = m_Picker.PickNearestTo(Colour(r, g, b));
+                    points.push_back({ x, y, c });
                 }
-
-                if (count == 0) continue;
-                r /= count; g /= count; b /= count;
-                auto c = m_Picker.PickNearestTo(Colour(r, g, b));
-                points.push_back({ x, y, c });
             }
-        }
 
-        std::cout << "Pass " << pass++ << ": " << points.size() << " points " << std::endl;
-        for (auto p : points)
-        {
-            m_Image->Plot(p.x, p.y, p.c);
+
+            std::cout << offset << " Pass " << pass++ << ": " << points.size() << " points " << std::endl;
+            for (auto p : points)
+            {
+                m_Image->Plot(p.x, p.y, p.c);
+            }
+
+            points.clear();
         }
-        
-        points.clear();
+        std::cout << offset << " - done" << std::endl;
+    };
+
+    int numThreads = 4;
+    std::vector<std::thread> threads;
+    for (int t = 0; t < numThreads; t++)
+    {
+        threads.push_back(std::move(std::thread(worker, numThreads, t)));
+    }
+
+    for (auto& t : threads)
+    {
+        t.join();
     }
 
     return m_Image;
